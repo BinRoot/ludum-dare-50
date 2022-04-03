@@ -20,9 +20,11 @@ position = Vector2( 290, 0 )
 
 [node name="Person4" parent="." instance=ExtResource( 3 )]
 position = Vector2( 102, -133 )
+z_index = -1
 
 [node name="Person5" parent="." instance=ExtResource( 3 )]
 position = Vector2( -113, -135 )
+z_index = -1
 
 [node name="Person6" parent="." instance=ExtResource( 3 )]
 position = Vector2( -284, 2 )

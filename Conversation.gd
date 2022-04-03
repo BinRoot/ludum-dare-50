@@ -2,6 +2,7 @@ extends Node2D
 
 signal on_topic_change
 signal on_conversation_finished
+signal on_conversation_dying
 
 onready var conversation_engine = $ConversationEngine
 onready var near_end_timer: Timer = $NearEndTimer
@@ -12,30 +13,27 @@ const STARTING_TOPIC = null
 #func _ready():
 #	set_topic(STARTING_TOPIC)
 
+func kill():
+	conversation_engine.timer.stop()
 
 func set_topic(topic):
+	randomize()
 	var prefixes = [
 		"let's talk about",
 		"we should talk about",
 		"what do you think about",
-		"anyone know"
+		"thoughts on",
+		"ever heard of",
+		"know anything about"
 	]
 	var utterance = "{0} {1}".format([
 		prefixes[randi() % len(prefixes)],
 		topic.to_lower()
 	])
-	var people = get_tree().get_nodes_in_group("person")
-	var highlighted_person = null
-	for person in people:
-		if person.is_highlighted:
-			highlighted_person = person
-	if highlighted_person != null:
-		conversation_engine.timer.stop()
-		conversation_engine.query = topic
-		conversation_engine.timer.start()
-		highlighted_person.say(utterance)
-	else:
-		print("No person highlighted")
+	conversation_engine.timer.stop()
+	conversation_engine.query = topic
+	conversation_engine.timer.start()
+	_some_person_say(utterance)	
 
 func _on_ConversationEngine_on_topic_change(topic):
 	randomize()
@@ -126,11 +124,8 @@ func _someone_out_of_topics(reset_others):
 		"... well anyways",
 		"... ok then",
 		"... yeaa",
-		"... right",
 		"... so anyways",
 		"... well ok",
-		"... weird flex",
-		"... cool story",
 		"... k",
 		"... anyways",
 		"... alrighty then",
@@ -143,10 +138,12 @@ func _someone_out_of_topics(reset_others):
 		"... hmm",
 		"... so umm",
 		"... right umm",
-		"... umm so yea"
+		"... umm so yea",
+		"... well",
 	]
 	var utterance = utterances[randi() % len(utterances)]
 	var person = _some_person_say(utterance, reset_others)
 	if person != null:
 		person.out_of_topics()
 	near_end_timer.start()
+	emit_signal("on_conversation_dying")

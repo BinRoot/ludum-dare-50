@@ -2,7 +2,8 @@ extends Node2D
 
 onready var label: Label = $Label
 onready var color_rect: ColorRect = $ColorRect
-onready var highlight_color_rect: ColorRect = $HighlightColorRect
+onready var hand_sprite: AnimatedSprite = $HandSprite
+onready var mouse_sprite: AnimatedSprite = $MouseSprite
 
 enum State {
 	IDLE,
@@ -25,6 +26,7 @@ func say(utterance):
 	is_out_of_topics = false
 	current_state = State.SAY
 	label.text = utterance
+	mouse_sprite.play()
 	
 func get_text():
 	return label.text
@@ -32,8 +34,8 @@ func get_text():
 func idle():
 	is_out_of_topics = false
 	current_state = State.IDLE
+	mouse_sprite.stop()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if current_state == State.IDLE:
 		label.text = ""
@@ -42,10 +44,17 @@ func _process(delta):
 		color_rect.color = Color.white
 	elif current_state == State.HIGHLIGHTED:
 		color_rect.color = Color.bisque
-	if is_highlighted:
-		highlight_color_rect.show()
+	if is_out_of_topics:
+		hand_sprite.show()
+		var elephants = get_tree().get_nodes_in_group("elephant")
+		if len(elephants) > 0:
+			var elephant_position: Vector2 = elephants[0].global_position
+			var hand_offset = (elephant_position - global_position).normalized() * 50
+			var angle = elephant_position.angle_to_point(global_position)
+			hand_sprite.rotation_degrees = angle * (180/PI)
+			hand_sprite.position = hand_offset
 	else:
-		highlight_color_rect.hide()
+		hand_sprite.hide()
 
 func _on_Area2D_area_entered(area):
 	if current_state == State.IDLE and is_out_of_topics == false:
