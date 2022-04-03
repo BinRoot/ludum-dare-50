@@ -96,7 +96,7 @@ shape = SubResource( 4 )
 
 [node name="HandSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 11 )
-frame = 5
+frame = 1
 playing = true
 
 [node name="MouseSprite" type="AnimatedSprite" parent="."]

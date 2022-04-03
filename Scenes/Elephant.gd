@@ -24,7 +24,7 @@ func _process(delta):
 
 func _on_WanderTimer_timeout():
 	var x_range = 400
-	var y_range = 130
+	var y_range = 100
 	target_position = get_viewport_rect().size / 2 + \
 		Vector2.UP * (randi() % y_range - y_range / 2) + \
 		Vector2.RIGHT * (randi() % x_range - x_range / 2) 
