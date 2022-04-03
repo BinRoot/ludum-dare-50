@@ -4,6 +4,7 @@ onready var label: Label = $Label
 onready var color_rect: ColorRect = $ColorRect
 onready var hand_sprite: AnimatedSprite = $HandSprite
 onready var mouse_sprite: AnimatedSprite = $MouseSprite
+onready var ding_sfx_player: AudioStreamPlayer2D = $DingSfxPlayer
 
 enum State {
 	IDLE,
@@ -27,6 +28,7 @@ func say(utterance):
 	current_state = State.SAY
 	label.text = utterance
 	mouse_sprite.play()
+	ding_sfx_player.play()
 	
 func get_text():
 	return label.text

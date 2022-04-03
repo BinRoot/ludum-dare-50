@@ -1,5 +1,6 @@
 extends Node2D
 
+onready var analytics_api = $Analytics
 onready var input_ui: Control = $Control/InputUI
 onready var game_over_ui: Control = $Control/GameOverUI
 onready var line_edit: LineEdit = $Control/InputUI/LineEdit
@@ -9,12 +10,16 @@ onready var conversation = $Conversation
 onready var arrow_sprite_1 = $Control/InputUI/ArrowSprite1
 onready var arrow_sprite_2 = $Control/InputUI/ArrowSprite2
 onready var cross_sprite = $Control/ScoreUI/CrossSprite
+onready var music_player: AudioStreamPlayer2D = $Music
+onready var game_over_audio_player: AudioStreamPlayer2D = $GameOverAudio
+onready var music_urgent_tween: Tween = $MusicUrgentTween
 const COST_OF_NEW_TOPIC_INPUT = 1
 var points = 1
 
 
 func _ready():
 	randomize()
+	music_player.play()
 
 
 func _process(delta):
@@ -37,6 +42,7 @@ func _on_LineEdit_text_entered(new_text):
 	if points >= COST_OF_NEW_TOPIC_INPUT:
 		points -= COST_OF_NEW_TOPIC_INPUT
 		conversation.set_topic(line_edit.text)
+		analytics_api.capture({"topic": line_edit.text})
 		line_edit.text = ""
 		_hide_urgent_arrows()
 		line_edit.placeholder_text = "enter new topic"
@@ -55,6 +61,11 @@ func _on_Conversation_on_conversation_finished():
 	conversation.kill()
 	input_ui.hide()
 	game_over_ui.show()
+	game_over_audio_player.play()
+	music_urgent_tween.interpolate_property(music_player, "volume_db",
+		music_player.volume_db, -20, 0.5,
+		Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	music_urgent_tween.start()
 
 
 func _on_TryAgainButton_pressed():
@@ -65,10 +76,18 @@ func _show_urgent_arrows():
 	arrow_sprite_2.show()
 	arrow_sprite_1.play()
 	arrow_sprite_2.play()
+	music_urgent_tween.interpolate_property(music_player, "pitch_scale",
+		music_player.pitch_scale, 1.6, 3,
+		Tween.TRANS_BOUNCE, Tween.EASE_OUT)
+	music_urgent_tween.start()
 	
 func _hide_urgent_arrows():
 	arrow_sprite_1.hide()
 	arrow_sprite_2.hide()
+	music_urgent_tween.interpolate_property(music_player, "pitch_scale",
+		music_player.pitch_scale, 1, 0.5,
+		Tween.TRANS_EXPO, Tween.EASE_OUT)
+	music_urgent_tween.start()
 
 func _on_Conversation_on_conversation_dying():
 	_show_urgent_arrows()

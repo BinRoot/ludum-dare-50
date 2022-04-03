@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/elephant_song.mp3-ba0b51eed04143eef3fc8674ba28e2d2.mp3str"
+
+[deps]
+
+source_file="res://Assets/elephant_song.mp3"
+dest_files=[ "res://.import/elephant_song.mp3-ba0b51eed04143eef3fc8674ba28e2d2.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

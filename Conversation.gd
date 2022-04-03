@@ -121,17 +121,12 @@ func _on_NearEndTimer_timeout():
 		
 func _someone_out_of_topics(reset_others):
 	var utterances = [
-		"... well anyways",
-		"... ok then",
-		"... yeaa",
-		"... so anyways",
+		"... well hold on",
+		"... ok wait",
+		"... wait up",
+		"... anyone seeing this",
 		"... well ok",
-		"... k",
-		"... anyways",
-		"... alrighty then",
-		"... moving on",
 		"... so yea",
-		"... alrighty",
 		"... umm",
 		"... ah",
 		"... ehh",
@@ -139,7 +134,12 @@ func _someone_out_of_topics(reset_others):
 		"... so umm",
 		"... right umm",
 		"... umm so yea",
-		"... well",
+		"... is this real",
+		"... look at that",
+		"... what in the world",
+		"... oh my",
+		"... what the heck",
+		"... did you see that",
 	]
 	var utterance = utterances[randi() % len(utterances)]
 	var person = _some_person_say(utterance, reset_others)

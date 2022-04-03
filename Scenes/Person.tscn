@@ -1,8 +1,9 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Scenes/Person.gd" type="Script" id=1]
 [ext_resource path="res://Assets/hand_sprite.png" type="Texture" id=2]
 [ext_resource path="res://Assets/mouse_sprite.png" type="Texture" id=3]
+[ext_resource path="res://Assets/ding.mp3" type="AudioStream" id=4]
 
 [sub_resource type="CircleShape2D" id=4]
 radius = 40.05
@@ -95,7 +96,7 @@ shape = SubResource( 4 )
 
 [node name="HandSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 11 )
-frame = 2
+frame = 5
 playing = true
 
 [node name="MouseSprite" type="AnimatedSprite" parent="."]
@@ -116,6 +117,11 @@ custom_fonts/font = SubResource( 2 )
 align = 1
 valign = 1
 autowrap = true
+
+[node name="DingSfxPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+volume_db = -10.487
+pitch_scale = 2.16
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
 [connection signal="area_exited" from="Area2D" to="." method="_on_Area2D_area_exited"]
