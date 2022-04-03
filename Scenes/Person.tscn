@@ -95,9 +95,8 @@ mouse_filter = 2
 shape = SubResource( 4 )
 
 [node name="HandSprite" type="AnimatedSprite" parent="."]
-z_index = 1
 frames = SubResource( 11 )
-frame = 2
+frame = 3
 playing = true
 
 [node name="MouseSprite" type="AnimatedSprite" parent="."]
