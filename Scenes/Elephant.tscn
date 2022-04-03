@@ -50,7 +50,7 @@ shape = SubResource( 1 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 2 )
 animation = "Walk Left"
-frame = 2
+frame = 3
 playing = true
 
 [node name="WanderTimer" type="Timer" parent="."]
